@@ -1,0 +1,136 @@
+//
+//  PrefixHeader.pch
+//  JHCommunityBiz
+//
+//  Created by xixixi on 16/5/9.
+//  Copyright © 2016年 com.jianghu. All rights reserved.
+//
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* PrefixHeader_pch */
+
+
+#ifdef __OBJC__
+/******导入需要使用的公共类******/
+#import "UIColor+Util.h"
+#import <Masonry.h>
+#import "UINavigationController+FDFullscreenPopGesture.h"
+#import "UIButton+BackgroundColor.h"
+#import <MBProgressHUD.h>
+#import "UILabel+GetHeight.h"
+#import "YYModel.h"
+#import "JHShareModel.h"
+#import "HttpTool.h"
+#import "JHShowAlert.h"
+#import <UIImageView+WebCache.h>
+#import "HZQChangeImageSize.h"
+#import "XHMapKitHeader.h"
+#import "UIView+Extension.h"
+#endif
+
+/************以下需要配置***************/
+//URL
+//#define KReplace_Url @"shequ.weizx.cn"
+#define KReplace_Url @"sq.jhcms.cn"
+//#define KReplace_Url @"xxb.ijianghu.net"
+//高德key
+#define GAO_DE_KEY @"89ba8ecceed6bbd17e8dad6fdcbb20bc"
+//谷歌地图
+#define GMS_MapKey @"AIzaSyA3H9CYuAwohybm2NkeqHI4JpL6EWh5_SE"
+//极光key
+#define JPUSH_KEY  @"edb44a1807233e1232a9d563"
+//是否显示选择国家电话区号
+#define SHOW_COUNTRY_CODE NO
+
+/************以上需要配置***************/
+
+#define IPADDRESS [NSString stringWithFormat:@"http://%@/api.php",KReplace_Url]
+#define IMAGEADDRESS @""
+
+//十六进制颜色转换
+#define HEX(x,y) [UIColor colorWithHex:x alpha:y]
+#define THEME_COLOR HEX(@"424879",1.0f)
+#define LINE_COLOR HEX(@"e6e6e6", 1.0f)
+#define DEFAULT_BACKGROUNDCOLOR HEX(@"f5f5f5",1.0f)
+#define Green_Color  HEX(@"14c0cc",1.0f)
+//日历的颜色
+#define CalendaColor THEME_COLOR
+
+#define RandomColor [UIColor colorWithRed:(arc4random()%256/255.0) green:(arc4random()%256/255.0) blue:(arc4random()%256/255.0) alpha:0.5]
+
+//---------------简便宏定义---------------------
+#define UserDefaults [NSUserDefaults standardUserDefaults]
+//是否是iphoneX
+#define isIPhoneX ([UIScreen mainScreen].bounds.size.width>= 375.0f && [UIScreen mainScreen].bounds.size.height >= 812.0f)
+//屏幕宽高
+#define WIDTH [UIScreen mainScreen].bounds.size.width
+#define HEIGHT (isIPhoneX ? ([UIScreen mainScreen].bounds.size.height -13 ) :[UIScreen mainScreen].bounds.size.height)
+//状态栏高度
+#define STATUS_HEIGHT (isIPhoneX ? 44 : 20)
+//导航栏高
+#define NAVI_HEIGHT (44 + STATUS_HEIGHT)
+
+//字体大小
+#define FONT(x) [UIFont systemFontOfSize:x]
+//坐标
+#define FRAME(x,y,w,h)  CGRectMake(x,y,w,h)
+//十六进制颜色转换
+#define HEX(x,y) [UIColor colorWithHex:x alpha:y]
+#define THEME_COLOR_Alpha(x) HEX(@"fa6720",x)
+#define BACK_COLOR HEX(@"fafafa",1.0f)
+
+//图像
+#define IMAGE(x) [UIImage imageNamed:x]
+
+#define RenderingImage(x) [IMAGE(x) imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]
+//json
+#define ERROR_0 [json[@"error"] isEqualToString:@"0"]
+#define ERROR_MESSAGE json[@"message"]
+#define ISPostSuccess [json[@"error"] isEqualToString:@"0"]
+#define Error_Msg json[@"message"]
+#define NOTCONNECT_STR NSLocalizedString(@"未能连接服务器,请稍后再试!", @"PrefixHeader")
+// 隐藏hud
+#define HIDE_HUD [MBProgressHUD hideHUDForView:self.view animated:YES];
+#define HIDE_HUD_IN_SELF [MBProgressHUD hideHUDForView:self animated:YES];
+//显示hud
+#define SHOW_HUD MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];\
+hud.removeFromSuperViewOnHide = YES;\
+hud.color = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.4];\
+hud.mode = MBProgressHUDModeIndeterminate;\
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{HIDE_HUD});
+
+
+#define SHOW_HUD_IN_SELF MBProgressHUD * hud = [MBProgressHUD showHUDAddedTo:self animated:YES];\
+hud.removeFromSuperViewOnHide = YES;\
+hud.color = [UIColor colorWithRed:0/255.0 green:0/255.0 blue:0/255.0 alpha:0.4];\
+hud.mode = MBProgressHUDModeIndeterminate;
+
+//开关大小
+#define switch_rect FRAME(WIDTH - 58, 5, 32.5, 20)
+//国际化及money define
+//#define GLOBAL(x) NSLocalizedString(x, nil)
+#define GLOBAL(x) [NSString stringWithFormat:@"%@",x]
+#define  MS  NSLocalizedString(@"¥", nil)
+#define  MT  NSLocalizedString(@"元", nil)
+#define SCALE WIDTH/375
+//字符串长度和高度计算
+#define getSize(str,h,font)  [[str stringByAppendingString:@"   "] boundingRectWithSize:CGSizeMake(10000, h) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font]} context:nil].size
+
+#define getBoldSize(str,h,font)  [str boundingRectWithSize:CGSizeMake(10000, h) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:font]} context:nil].size
+
+#define getStrHeight(str,width,font)  [str boundingRectWithSize:CGSizeMake(width, 10000) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:font]} context:nil].size.height
+
+#define CopyString(x) [[UIPasteboard generalPasteboard] setString:x];
+
+//-----------------打印宏定义-------------------
+//#ifndef __OPTIMIZE__
+//#define NSLog(...) NSLog(__VA_ARGS__)
+//#else
+//#define NSLog(...){}
+//#endif
